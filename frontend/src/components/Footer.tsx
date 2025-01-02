@@ -42,6 +42,7 @@ export default function Footer() {
                     >
                         info@roodjongeren.nl
                     </a>
+                    <p>IBAN: NL35 RABO 0321 5128 12</p>
                     <p>KVK: 24349986</p>
                     <a
                         href="https://www.google.nl/maps/place/Gaffelstraat+61B,+3014+RC+Rotterdam"

@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { FaSearch, FaSpinner } from "react-icons/fa";
 
 interface Props {
+    initialSearchString: string;
     placeholder: string;
     isLoading?: boolean;
     onChange: (text: string) => void;
@@ -10,7 +11,7 @@ interface Props {
 const DEBOUNCE_TIME_MS = 250;
 
 export default function Search(props: Props) {
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState(props.initialSearchString);
     const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | undefined>(undefined);
 
     function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
@@ -19,7 +20,7 @@ export default function Search(props: Props) {
 
         clearTimeout(timeoutId);
         const newTimeoutId = setTimeout(() => {
-            props.onChange(newValue);
+            props.onChange(newValue.trim());
             setTimeoutId(undefined);
         }, DEBOUNCE_TIME_MS);
         setTimeoutId(newTimeoutId);

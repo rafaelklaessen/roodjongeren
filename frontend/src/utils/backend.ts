@@ -188,7 +188,7 @@ export async function fetchAfdelingen(): Promise<Afdeling[]> {
     return response.data.data.map((it) => it.attributes);
 }
 
-export async function fetchAfdeling(slug: string): Promise<AfdelingDetail> {
+export async function fetchAfdeling(slug: string): Promise<AfdelingDetail | null> {
     const response = await backend.get<StrapiListResponse<Afdeling>>("/afdelingen", {
         params: {
             filters: {
@@ -201,6 +201,10 @@ export async function fetchAfdeling(slug: string): Promise<AfdelingDetail> {
             },
         },
     });
+
+    if (response.data.data.length === 0) {
+        return null;
+    }
 
     function sanitise(afdeling: any): Afdeling {
         afdeling.banner = afdeling.banner.data?.attributes?.url ?? null;
@@ -309,7 +313,7 @@ export async function fetchAuthors(): Promise<string[]> {
     return [...uniqueAuthors];
 }
 
-export async function fetchPost(slug: string): Promise<PostDetail> {
+export async function fetchPost(slug: string): Promise<PostDetail | null> {
     const response = await backend.get<StrapiListResponse<PostDetail>>("/posts", {
         params: {
             filters: {
@@ -328,6 +332,10 @@ export async function fetchPost(slug: string): Promise<PostDetail> {
             },
         },
     });
+
+    if (response.data.data.length === 0) {
+        return null;
+    }
 
     async function sanitise(post: any) {
         post.afdeling = post.afdeling.data?.attributes ?? null;

@@ -122,6 +122,12 @@ export async function getStaticProps(
         fetchPosts(undefined, undefined, params.slug, 1, 8),
     ]);
 
+    if (afdeling === null) {
+        return {
+            notFound: true,
+        };
+    }
+
     return {
         props: { fallbackPageBanner: pageBanner, afdeling, posts },
         revalidate,

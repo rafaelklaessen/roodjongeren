@@ -19,12 +19,21 @@ export default function PostBody(props: Props) {
                     <PostTypeDisplay type={post.type} />
                     {dateToText(new Date(post.publishedAt))}
                 </p>
-                <Link
-                    href={`/auteur/${encodeURIComponent(post.author)}`}
-                    className="hover:underline hover:text-primary transition-colors"
-                >
-                    {post.author}
-                </Link>
+                {post.afdeling !== null ? (
+                    <Link
+                        href={`/afdelingen/${encodeURIComponent(post.afdeling.slug)}`}
+                        className="hover:underline hover:text-primary transition-colors"
+                    >
+                        {post.afdeling.name}
+                    </Link>
+                ) : (
+                    <Link
+                        href={`/auteur/${encodeURIComponent(post.author)}`}
+                        className="hover:underline hover:text-primary transition-colors"
+                    >
+                        {post.author}
+                    </Link>
+                )}
                 {post.type === PostType.SUBMISSION && (
                     <p className="mt-4">
                         <i>

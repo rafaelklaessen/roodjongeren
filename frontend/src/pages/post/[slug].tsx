@@ -66,6 +66,12 @@ export async function getStaticProps(context: GetStaticPropsContext) {
         fetchFallback(),
     ]);
 
+    if (post === null) {
+        return {
+            notFound: true,
+        };
+    }
+
     return {
         props: { post, fallbackBanner: pageBanner },
         revalidate,
