@@ -15,10 +15,7 @@ module.exports = createCoreController("api::petition.petition", ({ strapi }) => 
             .query("api::petition.petition")
             .findOne({ where: { id }, populate });
 
-        const count = await strapi.entityService.count(
-            "api::petition-signature.petition-signature",
-            { filters: { petition: response.id, confirmed: true } }
-        );
+        const count = await strapi.documents("api::petition-signature.petition-signature").count({ filters: { petition: response.id, confirmed: true } });
         return { signatureCount: count, ...response };
     },
 }));

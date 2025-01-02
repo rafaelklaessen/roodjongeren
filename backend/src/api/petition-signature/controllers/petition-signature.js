@@ -34,21 +34,17 @@ module.exports = createCoreController(
                 return;
             }
 
-            const signatureCount = await strapi.entityService.count(
-                "api::petition-signature.petition-signature",
-                {
-                    filters: {
-                        petition: petitionId,
-                        email: { $eq: email },
-                    },
-                }
-            );
+            const signatureCount = await strapi.documents("api::petition-signature.petition-signature").count({
+                filters: {
+                    petition: petitionId,
+                    email: { $eq: email },
+                },
+            });
 
             if (signatureCount > 1) {
-                await strapi.entityService.delete(
-                    "api::petition-signature.petition-signature",
-                    result.id
-                );
+                await strapi.documents("api::petition-signature.petition-signature").delete({
+                    documentId: result.id,
+                });
                 ctx.send({ existed: true });
                 return;
             }
@@ -78,11 +74,10 @@ module.exports = createCoreController(
                 ctx.throw(404, "Deze code kon niet gevonden worden");
                 return;
             }
-            await strapi.entityService.update(
-                "api::petition-signature.petition-signature",
-                signature.id,
-                { data: { confirmed: true } }
-            );
+            await strapi.documents("api::petition-signature.petition-signature").update({
+                documentId: signature.id,
+                data: { confirmed: true }
+            });
             const post = await strapi.db.query("api::post.post").findOne({
                 where: { petition: signature.petition.id },
             });
